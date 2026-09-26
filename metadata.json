@@ -1,0 +1,6 @@
+{
+  "name": "Dr. Satyanarayana | Sarojini Devi Skin Hospital, Kakinada",
+  "description": "Sarojini Devi Skin Hospital in Kakinada provides dermatology consultation and skin disease care under Dr. Satyanarayana, MD (Dermatology).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
