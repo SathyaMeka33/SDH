@@ -1,6 +1,65 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { HospitalConfig, defaultHospitalData, CommonConcern } from '../config/hospitalData';
 import { Language, TranslationDictionary, translations } from '../translations';
+
+export const ROUTE_PATH_MAP: Record<string, string> = {
+  home: '/',
+  '/': '/',
+  about: '/about',
+  '/about': '/about',
+  doctor: '/doctor',
+  '/doctor': '/doctor',
+  treatments: '/treatments',
+  '/treatments': '/treatments',
+  hospital: '/hospital',
+  '/hospital': '/hospital',
+  'patient-info': '/patient-information',
+  'patient-information': '/patient-information',
+  '/patient-info': '/patient-information',
+  '/patient-information': '/patient-information',
+  contact: '/contact',
+  '/contact': '/contact',
+  'book-appointment': '/appointment',
+  appointment: '/appointment',
+  '/book-appointment': '/appointment',
+  '/appointment': '/appointment',
+  privacy: '/privacy-policy',
+  'privacy-policy': '/privacy-policy',
+  '/privacy': '/privacy-policy',
+  '/privacy-policy': '/privacy-policy',
+  terms: '/terms',
+  '/terms': '/terms',
+};
+
+export const getActiveViewFromPath = (pathname: string): string => {
+  switch (pathname) {
+    case '/about':
+      return 'about';
+    case '/doctor':
+      return 'doctor';
+    case '/treatments':
+      return 'treatments';
+    case '/hospital':
+      return 'hospital';
+    case '/patient-information':
+    case '/patient-info':
+      return 'patient-info';
+    case '/contact':
+      return 'contact';
+    case '/appointment':
+    case '/book-appointment':
+      return 'book-appointment';
+    case '/privacy-policy':
+    case '/privacy':
+      return 'privacy';
+    case '/terms':
+      return 'terms';
+    case '/':
+    default:
+      return 'home';
+  }
+};
 
 interface HospitalContextType {
   hospitalData: HospitalConfig;
@@ -26,6 +85,9 @@ const STORAGE_KEY = 'sarojini_devi_hospital_config_v2';
 const LANG_STORAGE_KEY = 'sarojini_devi_lang_v1';
 
 export const HospitalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [hospitalData, setHospitalData] = useState<HospitalConfig>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -61,7 +123,13 @@ export const HospitalProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const t = translations[language];
 
-  const [activeView, setActiveView] = useState<string>('home');
+  // Active view matches current route pathname
+  const activeView = getActiveViewFromPath(location.pathname);
+  const setActiveView = (view: string) => {
+    const targetPath = ROUTE_PATH_MAP[view] || (view.startsWith('/') ? view : `/${view}`);
+    navigate(targetPath);
+  };
+
   const [selectedConcern, setSelectedConcern] = useState<CommonConcern | null>(null);
   const [lightboxImage, setLightboxImage] = useState<{
     src: string;
@@ -90,33 +158,80 @@ export const HospitalProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   const navigateTo = (view: string, hash?: string) => {
-    setActiveView(view);
-    if (view === 'home' && hash) {
-      setTimeout(() => {
-        const element = document.getElementById(hash);
+    const targetPath = ROUTE_PATH_MAP[view] || (view.startsWith('/') ? view : `/${view}`);
+    const cleanHash = hash ? hash.replace('#', '') : undefined;
+
+    if (location.pathname === targetPath) {
+      if (cleanHash && cleanHash !== 'top') {
+        const element = document.getElementById(cleanHash);
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-      }, 50);
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const fullTarget = cleanHash && cleanHash !== 'top' ? `${targetPath}#${cleanHash}` : targetPath;
+      navigate(fullTarget);
     }
   };
 
-  // Sync hash routing if user pastes or changes url
+  // Scroll to hash element or top on route navigation
   useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash.replace('#', '');
-      if (['about', 'doctor', 'treatments', 'hospital', 'patient-info', 'contact', 'book-appointment', 'privacy', 'terms'].includes(hash)) {
-        setActiveView(hash);
-      } else if (!hash) {
-        setActiveView('home');
-      }
+    if (location.hash && location.hash !== '#top') {
+      const hashId = location.hash.replace('#', '');
+      const timer = setTimeout(() => {
+        const element = document.getElementById(hashId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+      return () => clearTimeout(timer);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [location.pathname, location.hash]);
+
+  // Dynamic document title & canonical link per route and language
+  useEffect(() => {
+    const titlesEn: Record<string, string> = {
+      '/': 'Dr. Satyanarayana | Sarojini Devi Skin Hospital, Kakinada',
+      '/about': 'About Hospital | Sarojini Devi Skin Hospital, Kakinada',
+      '/doctor': 'Dr. Satyanarayana, MD (Dermatology) | Sarojini Devi Skin Hospital',
+      '/treatments': 'Dermatology Treatments & Skin Care | Sarojini Devi Skin Hospital',
+      '/hospital': 'Hospital Facilities & Infrastructure | Sarojini Devi Skin Hospital',
+      '/patient-information': 'Patient Information & Consultation Guide | Sarojini Devi Skin Hospital',
+      '/contact': 'Contact & Clinic Location | Sarojini Devi Skin Hospital, Kakinada',
+      '/appointment': 'Book Dermatology Consultation | Sarojini Devi Skin Hospital, Kakinada',
+      '/privacy-policy': 'Privacy Policy | Sarojini Devi Skin Hospital',
+      '/terms': 'Terms & Conditions | Sarojini Devi Skin Hospital',
     };
 
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
+    const titlesTe: Record<string, string> = {
+      '/': 'డాక్టర్ సత్యనారాయణ | సరోజినీ దేవి స్కిన్ హాస్పిటల్, కాకినాడ',
+      '/about': 'ఆసుపత్రి పరిచయం | సరోజినీ దేవి స్కిన్ హాస్పిటల్, కాకినాడ',
+      '/doctor': 'డాక్టర్ సత్యనారాయణ, MD (డెర్మటాలజీ) | సరోజినీ దేవి స్కిన్ హాస్పిటల్',
+      '/treatments': 'చర్మ చికిత్సలు & సంరక్షణ | సరోజినీ దేవి స్కిన్ హాస్పిటల్',
+      '/hospital': 'ఆసుపత్రి సౌకర్యాలు | సరోజినీ దేవి స్కిన్ హాస్పిటల్',
+      '/patient-information': 'రోగులకు మార్గదర్శకాలు | సరోజినీ దేవి స్కిన్ హాస్పిటల్',
+      '/contact': 'చిరునామా & సంప్రదింపులు | సరోజినీ దేవి స్కిన్ హాస్పిటల్',
+      '/appointment': 'అపాయింట్‌మెంట్ బుకింగ్ | సరోజినీ దేవి స్కిన్ హాస్పిటల్',
+      '/privacy-policy': 'ప్రైవసీ పాలసీ | సరోజినీ దేవి స్కిన్ హాస్పిటల్',
+      '/terms': 'నిబంధనలు & షరతులు | సరోజినీ దేవి స్కిన్ హాస్పిటల్',
+    };
+
+    const titles = language === 'te' ? titlesTe : titlesEn;
+    const currentTitle = titles[location.pathname] || 'Dr. Satyanarayana | Sarojini Devi Skin Hospital, Kakinada';
+    document.title = currentTitle;
+
+    const canonicalEl = document.querySelector("link[rel='canonical']");
+    if (canonicalEl) {
+      const pathSuffix = location.pathname === '/' ? '' : location.pathname;
+      canonicalEl.setAttribute('href', `https://sdh-tau.vercel.app${pathSuffix}`);
+    }
+  }, [location.pathname, language]);
 
   return (
     <HospitalContext.Provider

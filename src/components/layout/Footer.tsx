@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useHospital } from '../../context/HospitalContext';
 import { BrandLogo } from '../common/BrandLogo';
 import { LanguageSwitcher } from '../common/LanguageSwitcher';
@@ -6,11 +7,8 @@ import {
   MapPin,
   CreditCard,
   User,
-  GraduationCap,
   ShieldCheck,
   Calendar,
-  Phone,
-  Mail,
   ChevronRight,
   ExternalLink,
   Settings,
@@ -18,11 +16,7 @@ import {
 } from 'lucide-react';
 
 export const Footer: React.FC = () => {
-  const { hospitalData, navigateTo, setIsConfigModalOpen, t, language } = useHospital();
-
-  const handleNav = (view: string, hash?: string) => {
-    navigateTo(view, hash);
-  };
+  const { hospitalData, setIsConfigModalOpen, t, language } = useHospital();
 
   return (
     <footer className="bg-[#123B63] text-white border-t border-[#0B5CAD]/30 pt-16 pb-12">
@@ -31,9 +25,9 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-blue-900/60">
           {/* Col 1: Brand & Identity (5 cols) */}
           <div className="lg:col-span-5 space-y-5">
-            <div className="bg-white/5 p-4 rounded-2xl border border-white/10 inline-block">
+            <Link to="/" className="bg-white/5 p-4 rounded-2xl border border-white/10 inline-block hover:bg-white/10 transition-colors">
               <BrandLogo size="md" />
-            </div>
+            </Link>
 
             <p className="text-blue-100/90 text-sm leading-relaxed max-w-md">
               {t.footer.aboutText}
@@ -69,7 +63,9 @@ export const Footer: React.FC = () => {
 
             {/* Footer Language Switcher Option */}
             <div className="pt-2 flex items-center gap-3">
-              <span className="text-xs text-blue-200 font-medium">{language === 'te' ? 'భాష మార్చుకోండి:' : 'Language:'}</span>
+              <span className="text-xs text-blue-200 font-medium">
+                {language === 'te' ? 'భాష మార్చుకోండి:' : 'Language:'}
+              </span>
               <LanguageSwitcher variant="pill" className="bg-white/10 border-white/20 text-white" />
             </div>
           </div>
@@ -81,58 +77,67 @@ export const Footer: React.FC = () => {
             </h3>
             <ul className="space-y-2.5 text-sm">
               <li>
-                <button
-                  onClick={() => handleNav('home', 'top')}
+                <Link
+                  to="/"
                   className="text-blue-100 hover:text-white transition-colors flex items-center gap-1.5"
                 >
                   <ChevronRight className="w-3.5 h-3.5 text-[#1677C8]" />
                   <span>{t.nav.home}</span>
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav('about', 'about-hospital')}
+                <Link
+                  to="/about"
                   className="text-blue-100 hover:text-white transition-colors flex items-center gap-1.5"
                 >
                   <ChevronRight className="w-3.5 h-3.5 text-[#1677C8]" />
                   <span>{t.nav.about}</span>
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav('doctor', 'doctor-profile')}
+                <Link
+                  to="/doctor"
                   className="text-blue-100 hover:text-white transition-colors flex items-center gap-1.5"
                 >
                   <ChevronRight className="w-3.5 h-3.5 text-[#1677C8]" />
                   <span>{hospitalData.doctorName}</span>
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav('treatments', 'treatments-section')}
+                <Link
+                  to="/treatments"
                   className="text-blue-100 hover:text-white transition-colors flex items-center gap-1.5"
                 >
                   <ChevronRight className="w-3.5 h-3.5 text-[#1677C8]" />
                   <span>{t.nav.treatments}</span>
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav('hospital', 'hospital-environment')}
+                <Link
+                  to="/hospital"
                   className="text-blue-100 hover:text-white transition-colors flex items-center gap-1.5"
                 >
                   <ChevronRight className="w-3.5 h-3.5 text-[#1677C8]" />
                   <span>{t.nav.hospital}</span>
-                </button>
+                </Link>
               </li>
               <li>
-                <button
-                  onClick={() => handleNav('patient-info', 'patient-journey')}
+                <Link
+                  to="/patient-information"
                   className="text-blue-100 hover:text-white transition-colors flex items-center gap-1.5"
                 >
                   <ChevronRight className="w-3.5 h-3.5 text-[#1677C8]" />
                   <span>{t.nav.patientInfo}</span>
-                </button>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/contact"
+                  className="text-blue-100 hover:text-white transition-colors flex items-center gap-1.5"
+                >
+                  <ChevronRight className="w-3.5 h-3.5 text-[#1677C8]" />
+                  <span>{t.nav.contact}</span>
+                </Link>
               </li>
             </ul>
           </div>
@@ -145,27 +150,39 @@ export const Footer: React.FC = () => {
             <ul className="space-y-2.5 text-xs text-blue-100/90">
               <li className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#1677C8]" />
-                <span>{language === 'te' ? 'చర్మ వ్యాధులు' : 'Skin Diseases'}</span>
+                <Link to="/treatments" className="hover:text-white transition-colors">
+                  {language === 'te' ? 'చర్మ వ్యాధులు' : 'Skin Diseases'}
+                </Link>
               </li>
               <li className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#1677C8]" />
-                <span>{language === 'te' ? 'ఎగ్జిమా & చర్మపు మంట' : 'Eczema & Dermatitis'}</span>
+                <Link to="/treatments" className="hover:text-white transition-colors">
+                  {language === 'te' ? 'ఎగ్జిమా & చర్మపు మంట' : 'Eczema & Dermatitis'}
+                </Link>
               </li>
               <li className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#1677C8]" />
-                <span>{language === 'te' ? 'సోరియాసిస్ సంరక్షణ' : 'Psoriasis Care'}</span>
+                <Link to="/treatments" className="hover:text-white transition-colors">
+                  {language === 'te' ? 'సోరియాసిస్ సంరక్షణ' : 'Psoriasis Care'}
+                </Link>
               </li>
               <li className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#1677C8]" />
-                <span>{language === 'te' ? 'ఫంగల్ ఇన్ఫెక్షన్లు & తామర' : 'Fungal & Ringworm'}</span>
+                <Link to="/treatments" className="hover:text-white transition-colors">
+                  {language === 'te' ? 'ఫంగల్ ఇన్ఫెక్షన్లు & తామర' : 'Fungal & Ringworm'}
+                </Link>
               </li>
               <li className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#1677C8]" />
-                <span>{language === 'te' ? 'మొటిమలు & మచ్చలు' : 'Acne & Blemishes'}</span>
+                <Link to="/treatments" className="hover:text-white transition-colors">
+                  {language === 'te' ? 'మొటిమలు & మచ్చలు' : 'Acne & Blemishes'}
+                </Link>
               </li>
               <li className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#1677C8]" />
-                <span>{language === 'te' ? 'చర్మ అలర్జీలు' : 'Allergic Reactions'}</span>
+                <Link to="/treatments" className="hover:text-white transition-colors">
+                  {language === 'te' ? 'చర్మ అలర్జీలు' : 'Allergic Reactions'}
+                </Link>
               </li>
             </ul>
           </div>
@@ -215,13 +232,13 @@ export const Footer: React.FC = () => {
                   <span>{language === 'te' ? 'గూగుల్ మ్యాప్స్ దిశలు' : 'Get Directions on Google Maps'}</span>
                 </a>
 
-                <button
-                  onClick={() => handleNav('book-appointment', 'appointment-section')}
+                <Link
+                  to="/appointment"
                   className="w-full inline-flex items-center justify-center gap-1.5 text-xs font-semibold bg-[#0B5CAD] hover:bg-[#1677C8] text-white py-2 px-3 rounded-lg transition-colors shadow-xs"
                 >
                   <Calendar className="w-3.5 h-3.5" />
                   <span>{t.nav.bookAppointment}</span>
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -231,7 +248,9 @@ export const Footer: React.FC = () => {
         <div className="py-6 border-b border-blue-900/60 text-xs text-blue-200/90 leading-relaxed flex items-start gap-3 bg-white/[0.03] p-4 rounded-xl mt-8">
           <ShieldCheck className="w-5 h-5 text-[#1677C8] shrink-0 mt-0.5" />
           <div>
-            <strong className="text-white block mb-0.5">{language === 'te' ? 'వైద్య గమనిక & డిస్‌క్లైమర్:' : 'Medical Notice & Disclaimer:'}</strong>
+            <strong className="text-white block mb-0.5">
+              {language === 'te' ? 'వైద్య గమనిక & డిస్‌క్లైమర్:' : 'Medical Notice & Disclaimer:'}
+            </strong>
             {t.footer.disclaimer}
             <span className="block mt-1 text-blue-300/70">
               {language === 'te'
@@ -253,19 +272,19 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4 text-xs">
-            <button
-              onClick={() => handleNav('privacy', 'privacy-section')}
+            <Link
+              to="/privacy-policy"
               className="hover:text-white transition-colors"
             >
               {t.footer.privacyPolicy}
-            </button>
+            </Link>
             <span className="text-blue-300/40">•</span>
-            <button
-              onClick={() => handleNav('terms', 'terms-section')}
+            <Link
+              to="/terms"
               className="hover:text-white transition-colors"
             >
               {t.footer.termsConditions}
-            </button>
+            </Link>
             <span className="text-blue-300/40">•</span>
             <button
               onClick={() => setIsConfigModalOpen(true)}

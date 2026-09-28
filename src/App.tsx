@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { Routes, Route, Navigate, Link } from 'react-router-dom';
 import { HospitalProvider, useHospital } from './context/HospitalContext';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
@@ -24,160 +25,85 @@ import { ConfigModal } from './components/modals/ConfigModal';
 import {
   AboutPage,
   DoctorPage,
+  TreatmentsPage,
   HospitalPage,
   PatientInfoPage,
+  ContactPage,
+  AppointmentPage,
   PrivacyPolicyPage,
   TermsPage,
+  NotFoundPage,
 } from './components/pages/Pages';
-import { Phone, Calendar, MapPin, MessageCircle } from 'lucide-react';
+import { Phone, Calendar, MessageCircle } from 'lucide-react';
 
-const MainContent: React.FC = () => {
-  const { activeView, hospitalData, navigateTo, language, t } = useHospital();
+const HomePage: React.FC = () => {
+  return (
+    <main>
+      {/* 1. Hero */}
+      <Hero />
 
-  const renderActiveView = () => {
-    switch (activeView) {
-      case 'about':
-        return <AboutPage />;
-      case 'doctor':
-        return <DoctorPage />;
-      case 'treatments':
-        return (
-          <div>
-            <div className="bg-[#F7FAFC] border-b border-[#DCE7F0] py-12">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <button
-                  onClick={() => navigateTo('home', 'top')}
-                  className="text-xs text-[#0B5CAD] font-medium hover:underline mb-4 inline-block"
-                >
-                  {language === 'te' ? '← తిరిగి హోమ్ పేజీకి' : '← Back to Home'}
-                </button>
-                <div className="inline-block px-3 py-1 rounded-full bg-[#EAF5FC] text-[#0B5CAD] text-xs font-semibold uppercase tracking-wider mb-2">
-                  {t.treatments.badge}
-                </div>
-                <h1 className="text-3xl sm:text-4xl font-bold text-[#123B63] tracking-tight">
-                  {language === 'te' ? 'చర్మవ్యాధుల సంరక్షణ & చికిత్స' : 'Skin Disease Care & Common Dermatology Concerns'}
-                </h1>
-                <p className="mt-2 text-base text-[#607080] max-w-2xl">
-                  {language === 'te'
-                    ? 'డాక్టర్ సత్యనారాయణ, MD (డెర్మటాలజీ) గారి సమగ్ర క్లినికల్ డెర్మటాలజీ సంప్రదింపులు.'
-                    : 'Comprehensive clinical dermatology consultation with Dr. Satyanarayana, MD (Dermatology).'}
-                </p>
-              </div>
-            </div>
-            <TreatmentsSection />
-            <AppointmentSection />
-          </div>
-        );
-      case 'hospital':
-        return <HospitalPage />;
-      case 'patient-info':
-        return <PatientInfoPage />;
-      case 'contact':
-        return (
-          <div>
-            <div className="bg-[#F7FAFC] border-b border-[#DCE7F0] py-12">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <button
-                  onClick={() => navigateTo('home', 'top')}
-                  className="text-xs text-[#0B5CAD] font-medium hover:underline mb-4 inline-block"
-                >
-                  {language === 'te' ? '← తిరిగి హోమ్ పేజీకి' : '← Back to Home'}
-                </button>
-                <div className="inline-block px-3 py-1 rounded-full bg-[#EAF5FC] text-[#0B5CAD] text-xs font-semibold uppercase tracking-wider mb-2">
-                  {t.contact.badge}
-                </div>
-                <h1 className="text-3xl sm:text-4xl font-bold text-[#123B63] tracking-tight">
-                  {t.contact.title}
-                </h1>
-                <p className="mt-2 text-base text-[#607080] max-w-2xl">
-                  {language === 'te'
-                    ? 'డాక్టర్ సత్యనారాయణ గారిని భానుగుడి జంక్షన్, కాకినాడ వద్ద సంప్రదించండి.'
-                    : 'Visit Dr. Satyanarayana at Bhanugudi Junction, Kakinada, Andhra Pradesh.'}
-                </p>
-              </div>
-            </div>
-            <ContactSection />
-            <AppointmentSection />
-          </div>
-        );
-      case 'book-appointment':
-        return (
-          <div>
-            <div className="bg-[#F7FAFC] border-b border-[#DCE7F0] py-12">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <button
-                  onClick={() => navigateTo('home', 'top')}
-                  className="text-xs text-[#0B5CAD] font-medium hover:underline mb-4 inline-block"
-                >
-                  {language === 'te' ? '← తిరిగి హోమ్ పేజీకి' : '← Back to Home'}
-                </button>
-                <div className="inline-block px-3 py-1 rounded-full bg-[#EAF5FC] text-[#0B5CAD] text-xs font-semibold uppercase tracking-wider mb-2">
-                  {t.appointment.badge}
-                </div>
-                <h1 className="text-3xl sm:text-4xl font-bold text-[#123B63] tracking-tight">
-                  {t.appointment.title}
-                </h1>
-                <p className="mt-2 text-base text-[#607080] max-w-2xl">
-                  {language === 'te'
-                    ? `డాక్టర్ ${hospitalData.doctorName} గారిని సంప్రదించండి. చెల్లింపు విధానం: కౌంటర్ వద్ద నగదు (${t.topBar.paymentMode}).`
-                    : `Consult ${hospitalData.doctorName}, ${hospitalData.doctorQualification}. Payment Mode: Cash at hospital counter.`}
-                </p>
-              </div>
-            </div>
-            <AppointmentSection />
-            <ContactSection />
-          </div>
-        );
-      case 'privacy':
-        return <PrivacyPolicyPage />;
-      case 'terms':
-        return <TermsPage />;
-      case 'home':
-      default:
-        return (
-          <main>
-            {/* 1. Hero */}
-            <Hero />
+      {/* 2. Trust Strip */}
+      <TrustStrip />
 
-            {/* 2. Trust Strip */}
-            <TrustStrip />
+      {/* 3. About Hospital */}
+      <AboutHospital />
 
-            {/* 3. About Hospital */}
-            <AboutHospital />
+      {/* 4. Doctor Profile */}
+      <DoctorProfile />
 
-            {/* 4. Doctor Profile */}
-            <DoctorProfile />
+      {/* 5. Skin Disease / Treatments Section */}
+      <TreatmentsSection />
 
-            {/* 5. Skin Disease / Treatments Section */}
-            <TreatmentsSection />
+      {/* 6. Why Choose Us */}
+      <WhyChooseUs />
 
-            {/* 6. Why Choose Us */}
-            <WhyChooseUs />
+      {/* 7. Hospital Environment (Real Photographs) */}
+      <HospitalEnvironment />
 
-            {/* 7. Hospital Environment (Real Photographs) */}
-            <HospitalEnvironment />
+      {/* 8. Patient Journey */}
+      <PatientJourney />
 
-            {/* 8. Patient Journey */}
-            <PatientJourney />
+      {/* 9. Appointment Section */}
+      <AppointmentSection />
 
-            {/* 9. Appointment Section */}
-            <AppointmentSection />
+      {/* 10. Contact & Location Section */}
+      <ContactSection />
 
-            {/* 10. Contact & Location Section */}
-            <ContactSection />
+      {/* 11. Medical Disclaimer */}
+      <MedicalDisclaimer />
+    </main>
+  );
+};
 
-            {/* 11. Medical Disclaimer */}
-            <MedicalDisclaimer />
-          </main>
-        );
-    }
-  };
+const MainLayout: React.FC = () => {
+  const { hospitalData, navigateTo, language } = useHospital();
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-[#18324A] font-sans selection:bg-[#EAF5FC] selection:text-[#0B5CAD]">
       <Header />
 
-      <div className="flex-1">{renderActiveView()}</div>
+      <div className="flex-1">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/doctor" element={<DoctorPage />} />
+          <Route path="/treatments" element={<TreatmentsPage />} />
+          <Route path="/hospital" element={<HospitalPage />} />
+          <Route path="/patient-information" element={<PatientInfoPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/appointment" element={<AppointmentPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+
+          {/* Backward compatibility redirects */}
+          <Route path="/patient-info" element={<Navigate to="/patient-information" replace />} />
+          <Route path="/book-appointment" element={<Navigate to="/appointment" replace />} />
+          <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
+
+          {/* Catch-all 404 Route */}
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </div>
 
       <Footer />
 
@@ -232,7 +158,7 @@ const MainContent: React.FC = () => {
           onClick={(e) => {
             if (hospitalData.contact.isPhonePlaceholder) {
               e.preventDefault();
-              navigateTo('contact', 'contact-section');
+              navigateTo('/contact', 'contact-section');
             }
           }}
           className="flex-1 flex items-center justify-center gap-1.5 py-3 px-2 rounded-xl bg-[#F7FAFC] border border-[#DCE7F0] text-xs font-bold text-[#123B63] active:bg-slate-100"
@@ -241,13 +167,13 @@ const MainContent: React.FC = () => {
           <span>{language === 'te' ? 'కాల్' : 'Call'}</span>
         </a>
 
-        <button
-          onClick={() => navigateTo('book-appointment', 'appointment-section')}
+        <Link
+          to="/appointment"
           className="flex-1 flex items-center justify-center gap-1.5 py-3 px-2 rounded-xl bg-[#0B5CAD] text-white text-xs font-bold shadow-sm active:bg-[#1677C8]"
         >
           <Calendar className="w-4 h-4" />
           <span>{language === 'te' ? 'బుకింగ్' : 'Book Visit'}</span>
-        </button>
+        </Link>
       </div>
     </div>
   );
@@ -256,7 +182,7 @@ const MainContent: React.FC = () => {
 export default function App() {
   return (
     <HospitalProvider>
-      <MainContent />
+      <MainLayout />
     </HospitalProvider>
   );
 }

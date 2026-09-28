@@ -1,26 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useHospital } from '../../context/HospitalContext';
 import { hospitalImages } from '../../assets/images';
 import {
-  Calendar,
-  MapPin,
-  Stethoscope,
-  GraduationCap,
   CreditCard,
-  ShieldCheck,
-  Building2,
-  Users,
-  DoorOpen,
-  Maximize2,
+  Stethoscope,
   CheckCircle2,
   ArrowLeft,
-  Clock,
-  Phone,
-  Mail,
-  ExternalLink,
   ShieldAlert,
 } from 'lucide-react';
-import { commonDermatologyConcerns } from '../../config/hospitalData';
 import { AppointmentSection } from '../home/AppointmentSection';
 import { ContactSection } from '../home/ContactSection';
 import { TreatmentsSection } from '../home/TreatmentsSection';
@@ -31,18 +19,18 @@ interface PageHeaderProps {
   badge: string;
 }
 
-const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle, badge }) => {
-  const { navigateTo, language } = useHospital();
+export const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle, badge }) => {
+  const { language } = useHospital();
   return (
     <div className="bg-[#F7FAFC] border-b border-[#DCE7F0] py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <button
-          onClick={() => navigateTo('home', 'top')}
+        <Link
+          to="/"
           className="inline-flex items-center gap-1.5 text-xs text-[#0B5CAD] font-medium hover:underline mb-4"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
-          <span>{language === 'te' ? 'తిరిగి హోమ్ పేజీకి' : 'Back to Home'}</span>
-        </button>
+          <span>{language === 'te' ? '← తిరిగి హోమ్ పేజీకి' : '← Back to Home'}</span>
+        </Link>
         <div className="inline-block px-3 py-1 rounded-full bg-[#EAF5FC] text-[#0B5CAD] text-xs font-semibold uppercase tracking-wider mb-2">
           {badge}
         </div>
@@ -58,7 +46,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle, badge }) => {
 };
 
 export const AboutPage: React.FC = () => {
-  const { hospitalData, navigateTo, setLightboxImage } = useHospital();
+  const { hospitalData, setLightboxImage } = useHospital();
 
   return (
     <div className="bg-white">
@@ -129,19 +117,19 @@ export const AboutPage: React.FC = () => {
               We avoid unsubstantiated commercial promises or aggressive cosmetic hard-selling. Every treatment recommendation is rooted in medical ethics and sound dermatological principles.
             </p>
 
-            <div className="pt-4 flex gap-4">
-              <button
-                onClick={() => navigateTo('book-appointment', 'appointment-section')}
+            <div className="pt-4 flex flex-wrap gap-4">
+              <Link
+                to="/appointment"
                 className="bg-[#0B5CAD] hover:bg-[#1677C8] text-white text-sm font-semibold px-6 py-3 rounded-xl transition-all shadow-xs"
               >
                 Book Appointment
-              </button>
-              <button
-                onClick={() => navigateTo('contact', 'contact-section')}
+              </Link>
+              <Link
+                to="/contact"
                 className="bg-[#F7FAFC] hover:bg-slate-100 text-[#123B63] border border-[#DCE7F0] text-sm font-semibold px-6 py-3 rounded-xl transition-all"
               >
                 Contact & Directions
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -151,7 +139,7 @@ export const AboutPage: React.FC = () => {
 };
 
 export const DoctorPage: React.FC = () => {
-  const { hospitalData, navigateTo, setLightboxImage } = useHospital();
+  const { hospitalData, setLightboxImage } = useHospital();
 
   return (
     <div className="bg-white">
@@ -215,13 +203,19 @@ export const DoctorPage: React.FC = () => {
               </ul>
             </div>
 
-            <div className="pt-4">
-              <button
-                onClick={() => navigateTo('book-appointment', 'appointment-section')}
+            <div className="pt-4 flex flex-wrap gap-4">
+              <Link
+                to="/appointment"
                 className="bg-[#0B5CAD] hover:bg-[#1677C8] text-white text-sm font-semibold px-6 py-3 rounded-xl transition-all shadow-xs"
               >
                 Schedule Consultation with Dr. Satyanarayana
-              </button>
+              </Link>
+              <Link
+                to="/treatments"
+                className="bg-[#F7FAFC] hover:bg-slate-100 text-[#123B63] border border-[#DCE7F0] text-sm font-semibold px-6 py-3 rounded-xl transition-all"
+              >
+                View Treatments Care
+              </Link>
             </div>
           </div>
         </div>
@@ -230,8 +224,27 @@ export const DoctorPage: React.FC = () => {
   );
 };
 
+export const TreatmentsPage: React.FC = () => {
+  const { language, t } = useHospital();
+  return (
+    <div>
+      <PageHeader
+        badge={t.treatments.badge}
+        title={language === 'te' ? 'చర్మవ్యాధుల సంరక్షణ & చికిత్స' : 'Skin Disease Care & Common Dermatology Concerns'}
+        subtitle={
+          language === 'te'
+            ? 'డాక్టర్ సత్యనారాయణ, MD (డెర్మటాలజీ) గారి సమగ్ర క్లినికల్ డెర్మటాలజీ సంప్రదింపులు.'
+            : 'Comprehensive clinical dermatology consultation with Dr. Satyanarayana, MD (Dermatology).'
+        }
+      />
+      <TreatmentsSection />
+      <AppointmentSection />
+    </div>
+  );
+};
+
 export const HospitalPage: React.FC = () => {
-  const { setLightboxImage, navigateTo } = useHospital();
+  const { setLightboxImage } = useHospital();
 
   return (
     <div className="bg-white">
@@ -279,12 +292,12 @@ export const HospitalPage: React.FC = () => {
           <p className="text-sm text-[#607080]">
             Our hospital welcomes walk-in and scheduled patients. Please check consultation timings and keep cash ready for reception billing.
           </p>
-          <button
-            onClick={() => navigateTo('book-appointment', 'appointment-section')}
-            className="bg-[#0B5CAD] hover:bg-[#1677C8] text-white text-sm font-semibold px-6 py-3 rounded-xl transition-all shadow-xs"
+          <Link
+            to="/appointment"
+            className="inline-block bg-[#0B5CAD] hover:bg-[#1677C8] text-white text-sm font-semibold px-6 py-3 rounded-xl transition-all shadow-xs"
           >
             Book Consultation
-          </button>
+          </Link>
         </div>
       </div>
     </div>
@@ -292,8 +305,6 @@ export const HospitalPage: React.FC = () => {
 };
 
 export const PatientInfoPage: React.FC = () => {
-  const { hospitalData, navigateTo } = useHospital();
-
   return (
     <div className="bg-white">
       <PageHeader
@@ -336,14 +347,52 @@ export const PatientInfoPage: React.FC = () => {
         </div>
 
         <div className="pt-4 text-center">
-          <button
-            onClick={() => navigateTo('book-appointment', 'appointment-section')}
-            className="bg-[#0B5CAD] hover:bg-[#1677C8] text-white text-sm font-semibold px-7 py-3.5 rounded-xl transition-all shadow-xs"
+          <Link
+            to="/appointment"
+            className="inline-block bg-[#0B5CAD] hover:bg-[#1677C8] text-white text-sm font-semibold px-7 py-3.5 rounded-xl transition-all shadow-xs"
           >
             Request Appointment Now
-          </button>
+          </Link>
         </div>
       </div>
+    </div>
+  );
+};
+
+export const ContactPage: React.FC = () => {
+  const { language, t } = useHospital();
+  return (
+    <div>
+      <PageHeader
+        badge={t.contact.badge}
+        title={t.contact.title}
+        subtitle={
+          language === 'te'
+            ? 'డాక్టర్ సత్యనారాయణ గారిని భానుగుడి జంక్షన్, కాకినాడ వద్ద సంప్రదించండి.'
+            : 'Visit Dr. Satyanarayana at Bhanugudi Junction, Kakinada, Andhra Pradesh.'
+        }
+      />
+      <ContactSection />
+      <AppointmentSection />
+    </div>
+  );
+};
+
+export const AppointmentPage: React.FC = () => {
+  const { language, t, hospitalData } = useHospital();
+  return (
+    <div>
+      <PageHeader
+        badge={t.appointment.badge}
+        title={t.appointment.title}
+        subtitle={
+          language === 'te'
+            ? `డాక్టర్ ${hospitalData.doctorName} గారిని సంప్రదించండి. చెల్లింపు విధానం: కౌంటర్ వద్ద నగదు (${t.topBar.paymentMode}).`
+            : `Consult ${hospitalData.doctorName}, ${hospitalData.doctorQualification}. Payment Mode: Cash at hospital counter.`
+        }
+      />
+      <AppointmentSection />
+      <ContactSection />
     </div>
   );
 };
@@ -401,6 +450,32 @@ export const TermsPage: React.FC = () => {
         <p className="text-[#607080]">
           Sarojini Devi Skin Hospital provides outpatient dermatology consultations. In the event of acute emergencies or anaphylactic shocks, please report immediately to the nearest 24/7 multi-specialty emergency hospital.
         </p>
+      </div>
+    </div>
+  );
+};
+
+export const NotFoundPage: React.FC = () => {
+  const { language } = useHospital();
+  return (
+    <div className="bg-white min-h-[60vh] flex items-center justify-center py-20 px-4">
+      <div className="max-w-md text-center">
+        <span className="text-6xl font-extrabold text-[#0B5CAD]">404</span>
+        <h1 className="text-2xl font-bold text-[#123B63] mt-4 mb-2">
+          {language === 'te' ? 'పేజీ కనుగొనబడలేదు' : 'Page Not Found'}
+        </h1>
+        <p className="text-[#607080] text-sm mb-6">
+          {language === 'te'
+            ? 'మీరు వెతుకుతున్న పేజీ అందుబాటులో లేదు లేదా మార్చబడింది.'
+            : 'The page you are looking for does not exist or has been moved.'}
+        </p>
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 bg-[#0B5CAD] hover:bg-[#1677C8] text-white text-sm font-semibold px-6 py-3 rounded-xl transition-all shadow-xs"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>{language === 'te' ? 'తిరిగి హోమ్ పేజీకి' : 'Back to Home'}</span>
+        </Link>
       </div>
     </div>
   );
