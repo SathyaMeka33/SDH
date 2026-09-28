@@ -6,6 +6,7 @@
 import React from 'react';
 import { Routes, Route, Navigate, Link } from 'react-router-dom';
 import { HospitalProvider, useHospital } from './context/HospitalContext';
+import { SEO } from './components/SEO';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { Hero } from './components/home/Hero';
@@ -22,6 +23,7 @@ import { MedicalDisclaimer } from './components/home/MedicalDisclaimer';
 import { ConcernDetailModal } from './components/modals/ConcernDetailModal';
 import { LightboxModal } from './components/modals/LightboxModal';
 import { ConfigModal } from './components/modals/ConfigModal';
+
 import {
   AboutPage,
   DoctorPage,
@@ -75,6 +77,78 @@ const HomePage: React.FC = () => {
   );
 };
 
+const pageSEO = {
+  home: {
+    title: 'Dr. Satyanarayana | Sarojini Devi Skin Hospital, Kakinada',
+    description:
+      'Sarojini Devi Skin Hospital in Kakinada provides dermatology consultation and skin disease care under Dr. Satyanarayana, MD (Dermatology).',
+    path: '/',
+  },
+
+  about: {
+    title: 'About Sarojini Devi Skin Hospital | Kakinada',
+    description:
+      'Learn about Sarojini Devi Skin Hospital in Bhanugudi Junction, Kakinada, providing dermatology-focused medical consultation and skin disease care.',
+    path: '/about',
+  },
+
+  doctor: {
+    title: 'Dr. Satyanarayana | Dermatologist in Kakinada',
+    description:
+      'Learn about Dr. Satyanarayana, MD (Dermatology), consultant dermatologist at Sarojini Devi Skin Hospital in Kakinada.',
+    path: '/doctor',
+  },
+
+  treatments: {
+    title: 'Dermatology Treatments & Skin Care | Kakinada',
+    description:
+      'Explore dermatology-focused skin disease care and clinical dermatology consultation at Sarojini Devi Skin Hospital in Kakinada.',
+    path: '/treatments',
+  },
+
+  hospital: {
+    title: 'Sarojini Devi Skin Hospital | Facilities in Kakinada',
+    description:
+      'Explore the clinical environment, consultation room, patient waiting area and hospital facilities at Sarojini Devi Skin Hospital in Kakinada.',
+    path: '/hospital',
+  },
+
+  patientInformation: {
+    title: 'Patient Information | Sarojini Devi Skin Hospital',
+    description:
+      'Find patient information about dermatology consultations, payment arrangements, what to bring and preparation for a visit to Sarojini Devi Skin Hospital.',
+    path: '/patient-information',
+  },
+
+  contact: {
+    title: 'Contact Sarojini Devi Skin Hospital | Kakinada',
+    description:
+      'Contact Sarojini Devi Skin Hospital and Dr. Satyanarayana at Bhanugudi Junction, Kakinada, Andhra Pradesh.',
+    path: '/contact',
+  },
+
+  appointment: {
+    title: 'Book a Dermatology Appointment | Kakinada',
+    description:
+      'Request a dermatology consultation appointment with Dr. Satyanarayana at Sarojini Devi Skin Hospital in Kakinada.',
+    path: '/appointment',
+  },
+
+  privacy: {
+    title: 'Privacy Policy | Sarojini Devi Skin Hospital',
+    description:
+      'Read the privacy policy of Sarojini Devi Skin Hospital covering appointment requests, contact information and medical confidentiality.',
+    path: '/privacy-policy',
+  },
+
+  terms: {
+    title: 'Terms & Medical Disclaimer | Sarojini Devi Skin Hospital',
+    description:
+      'Read the terms of service and medical disclaimer for the Sarojini Devi Skin Hospital website and clinical consultation information.',
+    path: '/terms',
+  },
+};
+
 const MainLayout: React.FC = () => {
   const { hospitalData, navigateTo, language } = useHospital();
 
@@ -83,26 +157,129 @@ const MainLayout: React.FC = () => {
       <Header />
 
       <div className="flex-1">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/doctor" element={<DoctorPage />} />
-          <Route path="/treatments" element={<TreatmentsPage />} />
-          <Route path="/hospital" element={<HospitalPage />} />
-          <Route path="/patient-information" element={<PatientInfoPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/appointment" element={<AppointmentPage />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-          <Route path="/terms" element={<TermsPage />} />
+       <Routes>
+  <Route
+    path="/"
+    element={
+      <>
+        <SEO {...pageSEO.home} />
+        <HomePage />
+      </>
+    }
+  />
 
-          {/* Backward compatibility redirects */}
-          <Route path="/patient-info" element={<Navigate to="/patient-information" replace />} />
-          <Route path="/book-appointment" element={<Navigate to="/appointment" replace />} />
-          <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
+  <Route
+    path="/about"
+    element={
+      <>
+        <SEO {...pageSEO.about} />
+        <AboutPage />
+      </>
+    }
+  />
 
-          {/* Catch-all 404 Route */}
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
+  <Route
+    path="/doctor"
+    element={
+      <>
+        <SEO {...pageSEO.doctor} />
+        <DoctorPage />
+      </>
+    }
+  />
+
+  <Route
+    path="/treatments"
+    element={
+      <>
+        <SEO {...pageSEO.treatments} />
+        <TreatmentsPage />
+      </>
+    }
+  />
+
+  <Route
+    path="/hospital"
+    element={
+      <>
+        <SEO {...pageSEO.hospital} />
+        <HospitalPage />
+      </>
+    }
+  />
+
+  <Route
+    path="/patient-information"
+    element={
+      <>
+        <SEO {...pageSEO.patientInformation} />
+        <PatientInfoPage />
+      </>
+    }
+  />
+
+  <Route
+    path="/contact"
+    element={
+      <>
+        <SEO {...pageSEO.contact} />
+        <ContactPage />
+      </>
+    }
+  />
+
+  <Route
+    path="/appointment"
+    element={
+      <>
+        <SEO {...pageSEO.appointment} />
+        <AppointmentPage />
+      </>
+    }
+  />
+
+  <Route
+    path="/privacy-policy"
+    element={
+      <>
+        <SEO {...pageSEO.privacy} />
+        <PrivacyPolicyPage />
+      </>
+    }
+  />
+
+  <Route
+    path="/terms"
+    element={
+      <>
+        <SEO {...pageSEO.terms} />
+        <TermsPage />
+      </>
+    }
+  />
+
+  {/* Backward compatibility redirects */}
+  <Route
+    path="/patient-info"
+    element={<Navigate to="/patient-information" replace />}
+  />
+
+  <Route
+    path="/book-appointment"
+    element={<Navigate to="/appointment" replace />}
+  />
+
+  <Route
+    path="/privacy"
+    element={<Navigate to="/privacy-policy" replace />}
+  />
+
+  {/* Catch-all */}
+  <Route
+    path="*"
+    element={<NotFoundPage />}
+  />
+</Routes>
       </div>
 
       <Footer />
