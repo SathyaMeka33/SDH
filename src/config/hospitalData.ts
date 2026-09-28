@@ -60,10 +60,10 @@ export const defaultHospitalData: HospitalConfig = {
     mapsEmbedUrl: "https://www.google.com/maps?q=Bhanugudi+Junction+Kakinada+Andhra+Pradesh&output=embed",
   },
   contact: {
-    phone: "+91 97036 29727",
+    phone: "07947142420",
     isPhonePlaceholder: false,
     landline: "0884-2378585 / 2341383 (Desk: 92466 68585)",
-    whatsappNumber: "919703629727",
+    whatsappNumber: "917947142420",
     email: "contact@sarojinideviskin.in",
     isEmailPlaceholder: false,
     timings: "Morning: 10:00 AM – 2:00 PM | Evening: 5:00 PM – 8:00 PM",

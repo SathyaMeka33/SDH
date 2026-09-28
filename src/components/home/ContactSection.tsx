@@ -145,7 +145,7 @@ export const ContactSection: React.FC = () => {
                           href={`tel:${hospitalData.contact.phone}`}
                           className="text-[#0B5CAD] font-bold text-sm hover:underline block"
                         >
-                          {hospitalData.contact.phone} {language === 'te' ? '(మొబైల్ / వాట్సాప్)' : '(Mobile / WhatsApp)'}
+                          {hospitalData.contact.phone}
                         </a>
                         {hospitalData.contact.landline && (
                           <div className="text-xs text-[#18324A] font-medium">
@@ -183,7 +183,7 @@ export const ContactSection: React.FC = () => {
               {/* Action Buttons Row */}
               <div className="pt-4 border-t border-[#DCE7F0] flex flex-wrap gap-2.5">
                 <a
-                  href={`https://api.whatsapp.com/send?phone=${hospitalData.contact.whatsappNumber || '919703629727'}&text=${encodeURIComponent(
+                  href={`https://api.whatsapp.com/send?phone=${hospitalData.contact.whatsappNumber || '917947142420'}&text=${encodeURIComponent(
                     language === 'te'
                       ? 'నమస్కారం డాక్టర్ సత్యనారాయణ గారు / సరోజినీ దేవి స్కిన్ హాస్పిటల్, చర్మ సంప్రదింపు అపాయింట్‌మెంట్ గురించి తెలుసుకోవాలనుకుంటున్నాను.'
                       : 'Hello Dr. Satyanarayana / Sarojini Devi Skin Hospital, I would like to inquire about skin consultation.'

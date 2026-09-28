@@ -28,7 +28,7 @@ export const ConfigModal: React.FC = () => {
   const [isPhonePlaceholder, setIsPhonePlaceholder] = useState(hospitalData.contact.isPhonePlaceholder);
   const [timings, setTimings] = useState(hospitalData.contact.timings);
   const [isTimingsPlaceholder, setIsTimingsPlaceholder] = useState(hospitalData.contact.isTimingsPlaceholder);
-  const [whatsappNumber, setWhatsappNumber] = useState(hospitalData.contact.whatsappNumber || '919703629727');
+  const [whatsappNumber, setWhatsappNumber] = useState(hospitalData.contact.whatsappNumber || '917947142420');
   const [email, setEmail] = useState(hospitalData.contact.email);
   const [isEmailPlaceholder, setIsEmailPlaceholder] = useState(hospitalData.contact.isEmailPlaceholder);
   const [ratingScore, setRatingScore] = useState(hospitalData.externalRating.score);
@@ -156,10 +156,10 @@ export const ConfigModal: React.FC = () => {
               value={whatsappNumber}
               onChange={(e) => setWhatsappNumber(e.target.value.replace(/[^\d+]/g, ''))}
               className="w-full px-3.5 py-2 text-sm rounded-lg border border-[#DCE7F0] focus:border-[#0B5CAD] text-[#18324A] focus:outline-none font-mono"
-              placeholder="919703629727"
+              placeholder="917947142420"
             />
             <p className="text-[11px] text-[#607080]">
-              Patient appointment details will automatically be dispatched to this WhatsApp phone number (e.g. 919703629727).
+              Patient appointment details will automatically be dispatched to this WhatsApp phone number (e.g. 917947142420).
             </p>
           </div>
 

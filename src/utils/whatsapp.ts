@@ -78,7 +78,7 @@ export function getWhatsAppAppointmentUrl(
   hospitalData: HospitalConfig,
   language: 'en' | 'te' = 'en'
 ): string {
-  const targetNumber = hospitalData.contact.whatsappNumber || '919703629727';
+  const targetNumber = hospitalData.contact.whatsappNumber || '917947142420';
   const cleanNumber = targetNumber.replace(/\D/g, '');
   const text = generateAppointmentWhatsAppMessage(payload, hospitalData, language);
   const encodedText = encodeURIComponent(text);

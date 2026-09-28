@@ -93,7 +93,7 @@ export const Hero: React.FC = () => {
               </button>
 
               <a
-                href={`https://api.whatsapp.com/send?phone=${hospitalData.contact.whatsappNumber || '919703629727'}&text=${encodeURIComponent(
+                href={`https://api.whatsapp.com/send?phone=${hospitalData.contact.whatsappNumber || '917947142420'}&text=${encodeURIComponent(
                   language === 'te'
                     ? 'నమస్కారం డాక్టర్ సత్యనారాయణ గారు, సరోజినీ దేవి స్కిన్ హాస్పిటల్‌లో చర్మ సంప్రదింపు అపాయింట్‌మెంట్ తీసుకోవాలనుకుంటున్నాను.'
                     : 'Hello Dr. Satyanarayana, I would like to schedule a dermatology consultation at Sarojini Devi Skin Hospital.'

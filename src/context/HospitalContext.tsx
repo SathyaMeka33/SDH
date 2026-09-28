@@ -81,7 +81,7 @@ interface HospitalContextType {
 
 const HospitalContext = createContext<HospitalContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'sarojini_devi_hospital_config_v2';
+const STORAGE_KEY = 'sarojini_devi_hospital_config_v3';
 const LANG_STORAGE_KEY = 'sarojini_devi_lang_v1';
 
 export const HospitalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

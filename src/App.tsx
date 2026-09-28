@@ -291,7 +291,7 @@ const MainLayout: React.FC = () => {
 
       {/* Desktop Floating WhatsApp Quick Consultation Button */}
       <a
-        href={`https://api.whatsapp.com/send?phone=${hospitalData.contact.whatsappNumber || '919703629727'}&text=${encodeURIComponent(
+        href={`https://api.whatsapp.com/send?phone=${hospitalData.contact.whatsappNumber || '917947142420'}&text=${encodeURIComponent(
           language === 'te'
             ? 'నమస్కారం డాక్టర్ సత్యనారాయణ గారు, సరోజినీ దేవి స్కిన్ హాస్పిటల్‌లో చర్మ సంప్రదింపు అపాయింట్‌మెంట్ కావాలి.'
             : 'Hello Dr. Satyanarayana / Sarojini Devi Skin Hospital, I would like to book a dermatology consultation appointment.'
@@ -317,7 +317,7 @@ const MainLayout: React.FC = () => {
       {/* Mobile Sticky Quick-Action Bar */}
       <div className="sm:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-[#DCE7F0] p-2.5 shadow-lg flex items-center gap-2">
         <a
-          href={`https://api.whatsapp.com/send?phone=${hospitalData.contact.whatsappNumber || '919703629727'}&text=${encodeURIComponent(
+          href={`https://api.whatsapp.com/send?phone=${hospitalData.contact.whatsappNumber || '917947142420'}&text=${encodeURIComponent(
             language === 'te'
               ? 'నమస్కారం డాక్టర్ సత్యనారాయణ గారు, సరోజినీ దేవి స్కిన్ హాస్పిటల్‌లో చర్మ సంప్రదింపు అపాయింట్‌మెంట్ తీసుకోవాలనుకుంటున్నాను.'
               : 'Hello Dr. Satyanarayana, I would like to schedule a skin consultation at Sarojini Devi Skin Hospital, Bhanugudi Junction.'

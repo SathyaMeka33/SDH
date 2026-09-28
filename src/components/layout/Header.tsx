@@ -122,7 +122,7 @@ export const Header: React.FC = () => {
 
             {/* Direct WhatsApp Consultation Button */}
             <a
-              href={`https://api.whatsapp.com/send?phone=${hospitalData.contact.whatsappNumber || '919703629727'}&text=${encodeURIComponent(
+              href={`https://api.whatsapp.com/send?phone=${hospitalData.contact.whatsappNumber || '917947142420'}&text=${encodeURIComponent(
                 language === 'te'
                   ? 'నమస్కారం డాక్టర్ సత్యనారాయణ గారు, సరోజినీ దేవి స్కిన్ హాస్పిటల్‌లో చర్మ సంప్రదింపు అపాయింట్‌మెంట్ కావాలి.'
                   : 'Hello Dr. Satyanarayana, I would like to book a skin consultation at Sarojini Devi Skin Hospital.'
@@ -228,7 +228,7 @@ export const Header: React.FC = () => {
             {/* Mobile Actions */}
             <div className="mt-6 pt-4 border-t border-[#DCE7F0] space-y-3">
               <a
-                href={`https://api.whatsapp.com/send?phone=${hospitalData.contact.whatsappNumber || '919703629727'}&text=${encodeURIComponent(
+                href={`https://api.whatsapp.com/send?phone=${hospitalData.contact.whatsappNumber || '917947142420'}&text=${encodeURIComponent(
                   language === 'te'
                     ? 'నమస్కారం డాక్టర్ సత్యనారాయణ గారు, సరోజినీ దేవి స్కిన్ హాస్పిటల్‌లో చర్మ సంప్రదింపు అపాయింట్‌మెంట్ కావాలి.'
                     : 'Hello Dr. Satyanarayana, I would like to book a dermatology consultation appointment at Sarojini Devi Skin Hospital.'
